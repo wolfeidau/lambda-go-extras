@@ -14,35 +14,36 @@ This illustrates how easy it is to dump the input and output payloads using a si
 package main
 
 import (
-  "fmt"
+	"context"
+	"fmt"
 
-  "github.com/aws/aws-lambda-go/lambda"
-  "github.com/wolfeidau/lambda-go-extras/lambdaextras"
-  lmw "github.com/wolfeidau/lambda-go-extras/lambdamiddleware"
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
+	lmw "github.com/wolfeidau/lambda-go-extras/middleware"
 )
 
 func main() {
 
-  ch := lmw.New(logEvent).ThenFunc(processEvent)
+	ch := lmw.New(logEvent).ThenFunc(processEvent)
 
-  lambda.StartHandler(ch)
+	lambda.StartHandler(ch)
 }
 
 func logEvent(next lambda.Handler) lambda.Handler {
-  return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) { 
+	return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
 
-    fmt.Println(string(payload))
+		fmt.Println(string(payload))
 
-    result, err := next(ctx, payload)
+		result, err := next.Invoke(ctx, payload)
 
-    fmt.Println(string(result))
+		fmt.Println(string(result))
 
-    return result, err
-  })
+		return result, err
+	})
 }
 
 func processEvent(ctx context.Context, payload []byte) ([]byte, error) {
-  return []byte("ok"), nil
+	return []byte("ok"), nil
 }
 ```
 
