@@ -12,7 +12,7 @@ Having used the `github.com/aws/aws-lambda-go` package for a while now I have fo
 
 Being able to compose these chains offers a lot of flexibility and reuse across projects.
 
-Given the default way of using the `github.com/aws/aws-lambda-go` is via the [Start(handler interface{})](https://godoc.org/github.com/aws/aws-lambda-go/lambda#Start) function, which is very flexible, but not easily extended, so I have moved to using the other option which is the less used [func StartHandler(handler Handler)](https://godoc.org/github.com/aws/aws-lambda-go/lambda#StartHandler). The later offers a more idiomatic Go option as the `Handler` is an interface without any magic so it is easily extended with middleware as seen in this module.
+Given the default way of using the `github.com/aws/aws-lambda-go` is via the [Start(handler interface{})](https://godoc.org/github.com/aws/aws-lambda-go/lambda#Start) function, which is very flexible, but not easily extended due it's dynamic nature. So I have moved to using the less used [func StartHandler(handler Handler)](https://godoc.org/github.com/aws/aws-lambda-go/lambda#StartHandler) which is more idiomatic with its `Handler` being just an interface with a single `Invoke` method. This module has extended this with a simple middleware chain inspired by alice as mentioned above.
 
 # Usage
 
