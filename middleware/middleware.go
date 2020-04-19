@@ -1,0 +1,45 @@
+package middleware
+
+import (
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
+)
+
+// Middleware A constructor for a a piece of middleware.
+// Some middleware use this constructor out of the box,
+// so in most cases you can just pass somepackage.New
+type Middleware func(next lambda.Handler) lambda.Handler
+
+// Chain acts as a list of http.Handler constructors.
+// Chain is effectively immutable:
+// once created, it will always hold
+// the same set of constructors in the same order.
+type Chain struct {
+	middlewares []Middleware
+}
+
+// New creates a new chain
+func New(middlewares ...Middleware) Chain {
+	return Chain{append(([]Middleware)(nil), middlewares...)}
+}
+
+// Then chains the middleware and returns the final lambda.Handler.
+//     New(m1, m2, m3).Then(h)
+// is equivalent to:
+//     m1(m2(m3(h)))
+// When the request comes in, it will be passed to m1, then m2, then m3
+// and finally, the given handler
+// (assuming every middleware calls the following one).
+func (c Chain) Then(h lambda.Handler) lambda.Handler {
+	for i := range c.middlewares {
+		h = c.middlewares[len(c.middlewares)-1-i](h)
+	}
+
+	return h
+}
+
+// ThenFunc works identically to Then, but takes
+// a HandlerFunc instead of a Handler.
+func (c Chain) ThenFunc(fn lambdaextras.HandlerFunc) lambda.Handler {
+	return c.Then(fn)
+}
