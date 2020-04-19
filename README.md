@@ -6,6 +6,14 @@ This module provides a middleware layer for [github.com/aws/aws-lambda-go](https
 [![Go Report Card](https://goreportcard.com/badge/github.com/wolfeidau/lambda-go-extras)](https://goreportcard.com/report/github.com/wolfeidau/lambda-go-extras)
 [![Documentation](https://godoc.org/github.com/wolfeidau/lambda-go-extras?status.svg)](https://godoc.org/github.com/wolfeidau/lambda-go-extras) [![Coverage Status](https://coveralls.io/repos/github/wolfeidau/lambda-go-extras/badge.svg?branch=master)](https://coveralls.io/github/wolfeidau/lambda-go-extras?branch=master)
 
+# Why?
+
+Having used the `github.com/aws/aws-lambda-go` package for a while now I have found it annoying switching between the Go standard libraries `http` package and this library. After some review I think the thing I miss the most is the ability to chain a list of handlers, with each link responsible for a part of the puzzle.
+
+Being able to compose these chains offers a lot of flexibility and reuse across projects.
+
+Given the default way of using the `github.com/aws/aws-lambda-go` is via the [Start(handler interface{})](https://godoc.org/github.com/aws/aws-lambda-go/lambda#Start) function, which is very flexible, but not easily extended, so I have moved to using the other option which is the less used [func StartHandler(handler Handler)](https://godoc.org/github.com/aws/aws-lambda-go/lambda#StartHandler). The later offers a more idiomatic Go option as the `Handler` is an interface without any magic so it is easily extended with middleware as seen in this module.
+
 # Usage
 
 This illustrates how easy it is to dump the input and output payloads using a simple middleware chain.
