@@ -1,3 +1,4 @@
+// Package middleware implements a middleware chaining solution for Go based lambdas.
 package middleware
 
 import (

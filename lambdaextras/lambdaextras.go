@@ -1,3 +1,4 @@
+// Package lambdaextras contains extras for building Go based lambdas.
 package lambdaextras
 
 import "context"
