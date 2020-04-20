@@ -24,6 +24,11 @@ func New(middlewares ...Middleware) Chain {
 	return Chain{append(([]Middleware)(nil), middlewares...)}
 }
 
+// Use append one or more middleware(s) onto the existing chain
+func (c *Chain) Use(middlewares ...Middleware) {
+	c.middlewares = append(c.middlewares, middlewares...)
+}
+
 // Then chains the middleware and returns the final lambda.Handler.
 //     New(m1, m2, m3).Then(h)
 // is equivalent to:

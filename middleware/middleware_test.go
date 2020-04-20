@@ -29,6 +29,24 @@ func TestNew(t *testing.T) {
 	assert.Len(chain.middlewares, 1)
 }
 
+func TestUse(t *testing.T) {
+
+	assert := require.New(t)
+
+	c1 := func(h lambda.Handler) lambda.Handler {
+		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
+			return h.Invoke(ctx, payload)
+		})
+	}
+
+	middlewares := []Middleware{c1}
+	chain := New()
+
+	chain.Use(middlewares...)
+
+	assert.Len(chain.middlewares, 1)
+}
+
 func TestThen(t *testing.T) {
 
 	assert := require.New(t)
