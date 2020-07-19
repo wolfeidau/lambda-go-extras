@@ -1,4 +1,4 @@
-package zlog
+package zerolog
 
 import (
 	"bytes"
@@ -39,7 +39,7 @@ func TestNew(t *testing.T) {
 	}{
 		{
 			name: "should dump json",
-			args: args{fields: FieldMap{"msg": "hello"}},
+			args: args{fields: middleware.FieldMap{"msg": "hello"}},
 			want: map[string]string{
 				"amzn_trace_id":  "",
 				"aws_request_id": "test123",
