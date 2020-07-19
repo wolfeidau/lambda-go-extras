@@ -6,6 +6,9 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
 )
 
+// FieldMap used to pass in a list of attribute value pairs
+type FieldMap map[string]interface{}
+
 // Middleware A constructor for a a piece of middleware.
 // Some middleware use this constructor out of the box,
 // so in most cases you can just pass somepackage.New

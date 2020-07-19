@@ -23,37 +23,42 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
+	"github.com/rs/zerolog"
 	lmw "github.com/wolfeidau/lambda-go-extras/middleware"
+	"github.com/wolfeidau/lambda-go-extras/middleware/raw"
+	zlog "github.com/wolfeidau/lambda-go-extras/middleware/zerolog"
+)
+
+// assigned during build time with -ldflags
+var (
+	commit    = "unknown"
+	buildDate = "unknown"
 )
 
 func main() {
 
-	ch := lmw.New(logEvent).ThenFunc(processEvent)
+	flds := lmw.FieldMap{"commit": commit, "buildDate": buildDate}
+
+	ch := lmw.New(
+		raw.New(raw.Fields(flds)),   // raw event logger primarily used during development
+		zlog.New(zlog.Fields(flds)), // inject zerolog into the context
+	).ThenFunc(processEvent)
 
 	lambda.StartHandler(ch)
 }
 
-func logEvent(next lambda.Handler) lambda.Handler {
-	return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
-
-		fmt.Println(string(payload))
-
-		result, err := next.Invoke(ctx, payload)
-
-		fmt.Println(string(result))
-
-		return result, err
-	})
-}
-
 func processEvent(ctx context.Context, payload []byte) ([]byte, error) {
+	zerolog.Ctx(ctx).Info().Msg("processEvent")
 	return []byte("ok"), nil
 }
 ```
+
+There are two bundled middleware, these are 
+
+* `github.com/wolfeidau/lambda-go-extras/middleware/raw` - raw event logger which outputs input and output events which also includes `aws_request_id` and the fields you provide at initialisation.
+* `github.com/wolfeidau/lambda-go-extras/middleware/zerolog` - configures the context with a [zerolog](https://github.com/rs/zerolog) logger which includes `aws_request_id` and the fields you provide at initialisation.
 
 # License
 
