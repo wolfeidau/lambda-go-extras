@@ -24,7 +24,7 @@ type Chain struct {
 
 // New creates a new chain
 func New(middlewares ...Middleware) Chain {
-	return Chain{append(([]Middleware)(nil), middlewares...)}
+	return Chain{append([]Middleware(nil), middlewares...)}
 }
 
 // Use append one or more middleware(s) onto the existing chain

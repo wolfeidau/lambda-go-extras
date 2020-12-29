@@ -26,7 +26,9 @@ func testHandler(ctx context.Context, payload []byte) ([]byte, error) {
 func TestNew(t *testing.T) {
 	assert := require.New(t)
 
-	_, filename, _, _ := runtime.Caller(0)
+	_, filename, _, ok := runtime.Caller(0)
+	assert.True(ok)
+
 	t.Logf("Current test filename: %s", filename)
 
 	type args struct {
@@ -52,7 +54,6 @@ func TestNew(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			ctx := lambdacontext.NewContext(context.TODO(), &lambdacontext.LambdaContext{
 				AwsRequestID: "test123",
 			})
@@ -68,7 +69,6 @@ func TestNew(t *testing.T) {
 			assert.NoError(err)
 
 			assert.JSONEq(string(jsonWant), buf.String())
-
 		})
 	}
 }

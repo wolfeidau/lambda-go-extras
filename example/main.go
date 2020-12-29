@@ -16,7 +16,6 @@ var (
 )
 
 func main() {
-
 	flds := lmw.FieldMap{"commit": commit, "buildDate": buildDate}
 
 	ch := lmw.New(

@@ -13,13 +13,10 @@ import (
 )
 
 func TestNew(t *testing.T) {
-
 	assert := require.New(t)
 
 	c1 := func(h lambda.Handler) lambda.Handler {
-		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
-			return h.Invoke(ctx, payload)
-		})
+		return lambdaextras.HandlerFunc(h.Invoke)
 	}
 
 	middlewares := []Middleware{c1}
@@ -30,13 +27,10 @@ func TestNew(t *testing.T) {
 }
 
 func TestUse(t *testing.T) {
-
 	assert := require.New(t)
 
 	c1 := func(h lambda.Handler) lambda.Handler {
-		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
-			return h.Invoke(ctx, payload)
-		})
+		return lambdaextras.HandlerFunc(h.Invoke)
 	}
 
 	middlewares := []Middleware{c1}
@@ -48,13 +42,10 @@ func TestUse(t *testing.T) {
 }
 
 func TestThen(t *testing.T) {
-
 	assert := require.New(t)
 
 	c1 := func(h lambda.Handler) lambda.Handler {
-		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
-			return h.Invoke(ctx, payload)
-		})
+		return lambdaextras.HandlerFunc(h.Invoke)
 	}
 
 	ctrl := gomock.NewController(t)
@@ -81,5 +72,4 @@ func TestThenFunc(t *testing.T) {
 	data, err := ch.Invoke(context.TODO(), []byte("hello"))
 	assert.NoError(err)
 	assert.Equal([]byte("world"), data)
-
 }
