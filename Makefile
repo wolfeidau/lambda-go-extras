@@ -1,9 +1,7 @@
-GOLANGCI_VERSION = 1.24.0
+GOLANGCI_VERSION = 1.31.0
 
 ci: lint test
 .PHONY: ci
-
-LDFLAGS := -ldflags="-s -w"
 
 bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint
