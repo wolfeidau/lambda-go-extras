@@ -42,7 +42,6 @@ func Output(output io.Writer) Option {
 // New build a new raw event logging middleware, this uses zerolog to emit
 // a log message for the input and output events
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
-
 	opts := &rawOptions{
 		output: os.Stderr,
 		fields: make(map[string]interface{}),

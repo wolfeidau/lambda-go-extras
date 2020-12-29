@@ -41,7 +41,6 @@ func Output(output io.Writer) Option {
 // New build a new zerlog middleware with the provided configuration which has
 // Stack and Caller enabled
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
-
 	opts := &zerlogOptions{
 		output: os.Stderr,
 		fields: make(map[string]interface{}),

@@ -121,7 +121,6 @@ func TestNew(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			ctx := lambdacontext.NewContext(context.TODO(), &lambdacontext.LambdaContext{
 				AwsRequestID: "test123",
 			})
@@ -141,12 +140,11 @@ func TestNew(t *testing.T) {
 
 			fmt.Println(buf.String())
 
-			for n, out := range tt.wantOutput {
-				jsonOutput, err := json.Marshal(&out)
+			for n := range tt.wantOutput {
+				jsonOutput, err := json.Marshal(&tt.wantOutput[n])
 				assert.NoError(err)
 				assert.JSONEq(string(jsonOutput), lines[n])
 			}
-
 		})
 	}
 }
