@@ -4,7 +4,7 @@ This module provides a middleware layer for [github.com/aws/aws-lambda-go](https
 
 [![GitHub Actions status](https://github.com/wolfeidau/lambda-go-extras/workflows/Go/badge.svg?branch=master)](https://github.com/wolfeidau/lambda-go-extras/actions?query=workflow%3AGo)
 [![Go Report Card](https://goreportcard.com/badge/github.com/wolfeidau/lambda-go-extras)](https://goreportcard.com/report/github.com/wolfeidau/lambda-go-extras)
-[![Documentation](https://godoc.org/github.com/wolfeidau/lambda-go-extras?status.svg)](https://godoc.org/github.com/wolfeidau/lambda-go-extras) [![Coverage Status](https://coveralls.io/repos/github/wolfeidau/lambda-go-extras/badge.svg?branch=master)](https://coveralls.io/github/wolfeidau/lambda-go-extras?branch=master)
+[![Documentation](https://godoc.org/github.com/wolfeidau/lambda-go-extras?status.svg)](https://godoc.org/github.com/wolfeidau/lambda-go-extras)
 
 # Why?
 
