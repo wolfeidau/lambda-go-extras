@@ -5,7 +5,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        go-version: [1.14.x, 1.15.x]
+        go-version: [1.15.x, 1.16.x]
     runs-on: ubuntu-latest
     steps:
 
@@ -21,8 +21,3 @@ jobs:
       - name: CI Tasks
         run: make ci
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@v1.0.1
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: coverage.lcov

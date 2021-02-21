@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "example"
+		},
+		{
+			"path": "middleware/zerolog"
+		},
+		{
+			"path": "middleware/raw"
+		}
+	],
+	"settings": {}
+}
