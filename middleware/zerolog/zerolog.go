@@ -18,6 +18,7 @@ type Option func(opts *zerlogOptions)
 type zerlogOptions struct {
 	fields map[string]interface{}
 	output io.Writer
+	level  zerolog.Level
 }
 
 // Fields pass a map of attributes which are appended to all log messages
@@ -38,12 +39,21 @@ func Output(output io.Writer) Option {
 	}
 }
 
+// Level minimum accepted level for logging.
+// Defaults to zerolog.InfoLevel.
+func Level(level zerolog.Level) Option {
+	return func(opts *zerlogOptions) {
+		opts.level = level
+	}
+}
+
 // New build a new zerlog middleware with the provided configuration which has
 // Stack and Caller enabled
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 	opts := &zerlogOptions{
 		output: os.Stderr,
 		fields: make(map[string]interface{}),
+		level:  zerolog.InfoLevel,
 	}
 
 	for _, opt := range options {
@@ -54,7 +64,7 @@ func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
 			lc, _ := lambdacontext.FromContext(ctx)
 
-			zlog := zerolog.New(opts.output).With().
+			zlog := zerolog.New(opts.output).Level(opts.level).With().
 				Stack().Caller().
 				Fields(opts.fields).
 				Str("aws_request_id", lc.AwsRequestID).

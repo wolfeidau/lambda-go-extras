@@ -31,7 +31,8 @@ func TestNew(t *testing.T) {
 	assert := require.New(t)
 
 	type args struct {
-		fields map[string]interface{}
+		fields  map[string]interface{}
+		enabled bool
 	}
 	tests := []struct {
 		name        string
@@ -44,7 +45,7 @@ func TestNew(t *testing.T) {
 	}{
 		{
 			name:    "should dump json",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}},
+			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
 			wantOutput: []map[string]interface{}{
 				{
@@ -68,7 +69,7 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with error",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}},
+			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
 			wantOutput: []map[string]interface{}{
 				{
@@ -86,7 +87,7 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with result warning",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}},
+			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
 			wantOutput: []map[string]interface{}{
 				{
@@ -103,7 +104,7 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with payload warning",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}},
+			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
 			payload: []byte(`hello`),
 			wantOutput: []map[string]interface{}{
 				{
@@ -118,6 +119,14 @@ func TestNew(t *testing.T) {
 			wantCount:   2,
 			handlerFunc: okHandler,
 		},
+		{
+			name:        "should be disabled",
+			args:        args{fields: map[string]interface{}{"msg": "hello"}, enabled: false},
+			payload:     []byte(`{"source": "welcome"}`),
+			wantOutput:  []map[string]interface{}{},
+			wantCount:   1,
+			handlerFunc: okHandler,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -126,7 +135,7 @@ func TestNew(t *testing.T) {
 			})
 
 			buf := new(bytes.Buffer)
-			ch := middleware.New(New(Fields(tt.args.fields), Output(buf))).ThenFunc(tt.handlerFunc)
+			ch := middleware.New(New(Fields(tt.args.fields), Output(buf), Enabled(tt.args.enabled))).ThenFunc(tt.handlerFunc)
 
 			_, err := ch.Invoke(ctx, tt.payload)
 			if tt.wantErr {
@@ -135,10 +144,10 @@ func TestNew(t *testing.T) {
 				assert.NoError(err)
 			}
 
+			fmt.Println(tt.name, buf.String())
+
 			lines := strings.Split(buf.String(), "\n")
 			assert.Len(lines, tt.wantCount)
-
-			fmt.Println(buf.String())
 
 			for n := range tt.wantOutput {
 				jsonOutput, err := json.Marshal(&tt.wantOutput[n])

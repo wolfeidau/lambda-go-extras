@@ -17,8 +17,9 @@ type Option func(opts *rawOptions)
 
 // settings for the zerolog middlware
 type rawOptions struct {
-	fields map[string]interface{}
-	output io.Writer
+	fields  map[string]interface{}
+	output  io.Writer
+	enabled bool
 }
 
 // Fields pass a map of attributes which are appended to all log messages
@@ -39,12 +40,21 @@ func Output(output io.Writer) Option {
 	}
 }
 
+// Enabled is a flag to toggle this middleware on or off.
+// Defaults to true.
+func Enabled(flag bool) Option {
+	return func(opts *rawOptions) {
+		opts.enabled = flag
+	}
+}
+
 // New build a new raw event logging middleware, this uses zerolog to emit
 // a log message for the input and output events
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 	opts := &rawOptions{
-		output: os.Stderr,
-		fields: make(map[string]interface{}),
+		output:  os.Stderr,
+		fields:  make(map[string]interface{}),
+		enabled: true,
 	}
 
 	for _, opt := range options {
@@ -53,6 +63,10 @@ func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 
 	return func(next lambda.Handler) lambda.Handler {
 		return lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
+			if !opts.enabled {
+				return next.Invoke(ctx, payload)
+			}
+
 			lc, _ := lambdacontext.FromContext(ctx)
 
 			zlog := zerolog.New(opts.output).With().

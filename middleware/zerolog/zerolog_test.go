@@ -33,6 +33,7 @@ func TestNew(t *testing.T) {
 
 	type args struct {
 		fields map[string]interface{}
+		level  zerolog.Level
 	}
 	tests := []struct {
 		name string
@@ -41,7 +42,7 @@ func TestNew(t *testing.T) {
 	}{
 		{
 			name: "should dump json",
-			args: args{fields: middleware.FieldMap{"msg": "hello"}},
+			args: args{fields: middleware.FieldMap{"msg": "hello"}, level: zerolog.InfoLevel},
 			want: map[string]string{
 				"amzn_trace_id":  "",
 				"aws_request_id": "test123",
@@ -59,7 +60,7 @@ func TestNew(t *testing.T) {
 			})
 
 			buf := new(bytes.Buffer)
-			ch := middleware.New(New(Fields(tt.args.fields), Output(buf))).ThenFunc(testHandler)
+			ch := middleware.New(New(Fields(tt.args.fields), Output(buf), Level(tt.args.level))).ThenFunc(testHandler)
 
 			data, err := ch.Invoke(ctx, []byte{})
 			assert.NoError(err)
