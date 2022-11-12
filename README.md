@@ -46,7 +46,8 @@ func main() {
 		zlog.New(zlog.Fields(flds)), // inject zerolog into the context
 	).ThenFunc(processEvent)
 
-	lambda.StartHandler(ch)
+	// use StartWithOptions as StartHandler is deprecated 
+	lambda.StartWithOptions(ch)
 }
 
 func processEvent(ctx context.Context, payload []byte) ([]byte, error) {
