@@ -19,3 +19,23 @@ func TestHandlerFunc(t *testing.T) {
 	assert.NoError(err)
 	assert.Equal([]byte("world"), data)
 }
+
+type In struct {
+	Msg string `json:"msg,omitempty"`
+}
+
+type Out struct {
+	Result string `json:"result,omitempty"`
+}
+
+func TestGenericHandler(t *testing.T) {
+	assert := require.New(t)
+
+	h := GenericHandler(func(ctx context.Context, input In) (Out, error) {
+		return Out{Result: input.Msg}, nil
+	})
+
+	data, err := h.Invoke(context.TODO(), []byte(`{"msg": "hello"}`))
+	assert.NoError(err)
+	assert.Equal([]byte(`{"result":"hello"}`), data)
+}
