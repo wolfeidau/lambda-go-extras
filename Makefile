@@ -1,4 +1,4 @@
-GOLANGCI_VERSION = 1.34.0
+GOLANGCI_VERSION = v1.50.0
 BIN_DIR ?= $(shell pwd)/bin
 
 ci: lint test
@@ -7,7 +7,7 @@ ci: lint test
 $(BIN_DIR)/golangci-lint: $(BIN_DIR)/golangci-lint-${GOLANGCI_VERSION}
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} $(BIN_DIR)/golangci-lint
 $(BIN_DIR)/golangci-lint-${GOLANGCI_VERSION}:
-	@curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- v${GOLANGCI_VERSION}
+	@curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s $(GOLANGCI_VERSION)
 	@mv $(BIN_DIR)/golangci-lint $@
 
 $(BIN_DIR)/mockgen:
@@ -24,6 +24,13 @@ lint: $(BIN_DIR)/golangci-lint
 	@cd ./middleware/raw; $(BIN_DIR)/golangci-lint run
 	@cd ./middleware/zerolog; $(BIN_DIR)/golangci-lint run
 .PHONY: lint
+
+lint-fix: $(BIN_DIR)/golangci-lint
+	@echo "--- lint all the things"
+	@$(BIN_DIR)/golangci-lint run --fix ./...
+	@cd ./middleware/raw; $(BIN_DIR)/golangci-lint run --fix ./...
+	@cd ./middleware/zerolog; $(BIN_DIR)/golangci-lint run --fix ./...
+.PHONY: lint-fix
 
 test:
 	@echo "--- test all the things"

@@ -33,9 +33,13 @@ func (c *Chain) Use(middlewares ...Middleware) {
 }
 
 // Then chains the middleware and returns the final lambda.Handler.
-//     New(m1, m2, m3).Then(h)
+//
+//	New(m1, m2, m3).Then(h)
+//
 // is equivalent to:
-//     m1(m2(m3(h)))
+//
+//	m1(m2(m3(h)))
+//
 // When the request comes in, it will be passed to m1, then m2, then m3
 // and finally, the given handler
 // (assuming every middleware calls the following one).
