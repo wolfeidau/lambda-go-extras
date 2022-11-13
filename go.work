@@ -5,4 +5,5 @@ use (
 	./example
 	./middleware/raw
 	./middleware/zerolog
+	./standard
 )
