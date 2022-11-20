@@ -23,6 +23,15 @@ type defaultConfig struct {
 
 type Option func(config *defaultConfig)
 
+// Fields pass a map of attributes which are appended to all log messages and raw events.
+func Fields(fields map[string]interface{}) Option {
+	return func(opts *defaultConfig) {
+		for k, v := range fields {
+			opts.fields[k] = v
+		}
+	}
+}
+
 // RawEnabled is a flag to toggle this middleware on or off.
 // Defaults to true.
 func RawEnabled(flag bool) Option {
