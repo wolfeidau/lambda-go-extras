@@ -14,10 +14,11 @@ import (
 )
 
 type defaultConfig struct {
-	rawEnabled bool
-	fields     middleware.FieldMap
-	output     io.Writer
-	level      zerolog.Level
+	rawEnabled  bool
+	fields      middleware.FieldMap
+	output      io.Writer
+	level       zerolog.Level
+	middlewares []middleware.Middleware
 }
 
 type Option func(config *defaultConfig)
@@ -46,23 +47,43 @@ func LogLevel(level zerolog.Level) Option {
 	}
 }
 
+// Append middleware to the chain.
+// Defaults to raw and zerolog middleware.
+func Append(mw middleware.Middleware) Option {
+	return func(opts *defaultConfig) {
+		opts.middlewares = append(opts.middlewares, mw)
+	}
+}
+
 // Default configures a standard lambda handler with default middleware which includes the zerolog and raw logging.
 func Default(h lambda.Handler, opts ...Option) {
 
 	config := &defaultConfig{
-		rawEnabled: true,
-		fields:     make(middleware.FieldMap),
-		output:     os.Stderr,
-		level:      zerolog.InfoLevel,
+		rawEnabled:  true,
+		fields:      make(middleware.FieldMap),
+		output:      os.Stderr,
+		level:       zerolog.InfoLevel,
+		middlewares: make([]middleware.Middleware, 0),
 	}
 
 	for _, opt := range opts {
 		opt(config)
 	}
 
+	// prepend the two default middleware to the list, then add the ones from the configuration while preserving order
+	//
+	// this is done to ensure the logging middleware is at the top of stack to enable debugging of other middleware lower down the chain
+	// as the zerolog logger will be in the context.
+	config.middlewares = append(
+		[]middleware.Middleware{
+			raw.New(raw.Fields(config.fields), raw.Enabled(config.rawEnabled), raw.Output(config.output)),
+			zlog.New(zlog.Fields(config.fields), zlog.Output(config.output)),
+		},
+		config.middlewares...,
+	)
+
 	ch := middleware.New(
-		raw.New(raw.Fields(config.fields), raw.Enabled(config.rawEnabled), raw.Output(config.output)),
-		zlog.New(zlog.Fields(config.fields), zlog.Output(config.output)),
+		config.middlewares...,
 	)
 
 	// use StartWithOptions as StartHandler is deprecated
