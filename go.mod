@@ -3,9 +3,9 @@ module github.com/wolfeidau/lambda-go-extras
 go 1.18
 
 require (
-	github.com/aws/aws-lambda-go v1.34.1
+	github.com/aws/aws-lambda-go v1.41.0
 	github.com/golang/mock v1.6.0
-	github.com/stretchr/testify v1.7.2
+	github.com/stretchr/testify v1.8.4
 )
 
 require (

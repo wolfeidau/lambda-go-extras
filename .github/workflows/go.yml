@@ -1,23 +1,47 @@
 name: Go
-on: [push]
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+concurrency:
+  group: lambda-go-extras-unit-tests-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
     strategy:
       matrix:
-        go-version: [1.18.x, 1.19.x]
-    runs-on: ubuntu-latest
+        go-version: [1.19.x, 1.20.x]
+        platform: ["ubuntu-latest"]
+    runs-on: ${{ matrix.platform }}
     steps:
-
-      - name: Set up Go
-        uses: actions/setup-go@v1
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: ${{ matrix.go-version }}
         id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v1
-
-      - name: CI Tasks
-        run: make ci
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Run linters
+        uses: golangci/golangci-lint-action@5f1fec7010f6ae3b84ea4f7b2129beb8639b564f # v3.5.0
+        with:
+          version: latest
+      - name: Run linters
+        uses: golangci/golangci-lint-action@5f1fec7010f6ae3b84ea4f7b2129beb8639b564f # v3.5.0
+        with:
+          version: latest
+          working-directory: ./standard
+      - name: Run linters
+        uses: golangci/golangci-lint-action@5f1fec7010f6ae3b84ea4f7b2129beb8639b564f # v3.5.0
+        with:
+          version: latest
+          working-directory: ./middleware/raw
+      - name: Run linters
+        uses: golangci/golangci-lint-action@5f1fec7010f6ae3b84ea4f7b2129beb8639b564f # v3.5.0
+        with:
+          version: latest
+          working-directory: ./middleware/zerolog
+      - name: Test
+        run: make test
 

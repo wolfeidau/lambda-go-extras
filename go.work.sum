@@ -1,3 +1,9 @@
+github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
+github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
+github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=
+github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
+github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/wolfeidau/lambda-go-extras v1.4.0/go.mod h1:nBKU5Aq5+dWHKq/xDZ8sDrE6V6/yeG/YTzjJfzQyDrc=
-github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0/go.mod h1:oXUMxKjf/fIXMYjiqWu898zBzKMnTU8nGfY8EF94pDw=
-github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.0/go.mod h1:WmtphG9hT/nHd7QR3TiguObb9rH3Go4wBI/123Vvkjo=
+gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
