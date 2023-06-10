@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.41.0
 	github.com/rs/zerolog v1.29.1
 	github.com/stretchr/testify v1.8.4
-	github.com/wolfeidau/lambda-go-extras v1.5.0
+	github.com/wolfeidau/lambda-go-extras v1.5.1
 )
 
 require (
