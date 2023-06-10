@@ -16,9 +16,9 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/rs/xid v1.4.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
 github.com/rs/zerolog v1.29.1 h1:cO+d60CHkknCbvzEWxP0S9K6KqyTjrCNUy1LdQLCGPc=
 github.com/rs/zerolog v1.29.1/go.mod h1:Le6ESbR7hc+DP6Lt1THiV8CQSdkkNrd3R0XbEgp3ZBU=
-github.com/stretchr/testify v1.7.2 h1:4jaiDzPyXQvSd7D0EjG45355tLlV3VOECpq10pLC+8s=
-github.com/wolfeidau/lambda-go-extras v1.5.0 h1:T8zIV+VtxAx6Q1Rq7Y3sdSknT4h9jisf9OqXes4wWNg=
-github.com/wolfeidau/lambda-go-extras v1.5.0/go.mod h1:9x7MEX437EMWKK2YTIwi9ogxwpgGEs4yFP9sxW4maEs=
+github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
+github.com/wolfeidau/lambda-go-extras v1.5.1 h1:y3TCwHZiLeCmL+kq8cLgjCw0CXNzFhzp0Phfz3N2OfY=
+github.com/wolfeidau/lambda-go-extras v1.5.1/go.mod h1:znppPcBOxAsQbd07b4QzcFNWwN7Hay0uR5EbpRfkAyA=
 github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0 h1:GQ+L01AraaEWv93ZWBXhyw99DdVADCAxM3BiuoheA6I=
 github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0/go.mod h1:oXUMxKjf/fIXMYjiqWu898zBzKMnTU8nGfY8EF94pDw=
 github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.0 h1:CNHHWt9McJkKo56JfQgb7CXL8VkGeTzFTYuZyVK3pIw=

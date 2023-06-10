@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/aws/aws-lambda-go v1.41.0
 	github.com/rs/zerolog v1.29.1
-	github.com/wolfeidau/lambda-go-extras v1.5.0
+	github.com/wolfeidau/lambda-go-extras v1.5.1
 	github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0
 	github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.0
 )
