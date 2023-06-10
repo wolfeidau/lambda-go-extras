@@ -19,10 +19,10 @@ github.com/rs/zerolog v1.29.1/go.mod h1:Le6ESbR7hc+DP6Lt1THiV8CQSdkkNrd3R0XbEgp3
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/wolfeidau/lambda-go-extras v1.5.1 h1:y3TCwHZiLeCmL+kq8cLgjCw0CXNzFhzp0Phfz3N2OfY=
 github.com/wolfeidau/lambda-go-extras v1.5.1/go.mod h1:znppPcBOxAsQbd07b4QzcFNWwN7Hay0uR5EbpRfkAyA=
-github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0 h1:GQ+L01AraaEWv93ZWBXhyw99DdVADCAxM3BiuoheA6I=
-github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.0/go.mod h1:oXUMxKjf/fIXMYjiqWu898zBzKMnTU8nGfY8EF94pDw=
-github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.0 h1:CNHHWt9McJkKo56JfQgb7CXL8VkGeTzFTYuZyVK3pIw=
-github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.0/go.mod h1:WmtphG9hT/nHd7QR3TiguObb9rH3Go4wBI/123Vvkjo=
+github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.1 h1:xsPoHOLzRuwQjk0Jgk7Y00E1NW5DS9YvyuV8cD757SE=
+github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.1/go.mod h1:Z5VxbYBM39vFXUIi1hDQKlOUYDlpppvjgCqC5J2PjoE=
+github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.1 h1:NvkOh9EFStNics07b96Oz252sWWffLqykHcg1bpo7wg=
+github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.1/go.mod h1:Q0ZOb0Lds0l7PioNsBpM9NsgFfyddLdXPQwYmM54vGs=
 golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

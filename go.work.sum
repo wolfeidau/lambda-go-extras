@@ -6,5 +6,7 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.7.2/go.mod h1:R6va5+xMeoiuVRoj+gSkQ7d3FALtqAAGI1FQKckRals=
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/wolfeidau/lambda-go-extras v1.4.0/go.mod h1:nBKU5Aq5+dWHKq/xDZ8sDrE6V6/yeG/YTzjJfzQyDrc=
-github.com/wolfeidau/lambda-go-extras v1.5.1/go.mod h1:znppPcBOxAsQbd07b4QzcFNWwN7Hay0uR5EbpRfkAyA=
+github.com/wolfeidau/lambda-go-extras v1.5.0/go.mod h1:9x7MEX437EMWKK2YTIwi9ogxwpgGEs4yFP9sxW4maEs=
+github.com/wolfeidau/lambda-go-extras/middleware/raw v1.5.1/go.mod h1:Z5VxbYBM39vFXUIi1hDQKlOUYDlpppvjgCqC5J2PjoE=
+github.com/wolfeidau/lambda-go-extras/middleware/zerolog v1.5.1/go.mod h1:Q0ZOb0Lds0l7PioNsBpM9NsgFfyddLdXPQwYmM54vGs=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
