@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
 	"github.com/wolfeidau/lambda-go-extras/mocks"
@@ -48,12 +47,11 @@ func TestThen(t *testing.T) {
 		return lambdaextras.HandlerFunc(h.Invoke)
 	}
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	handler := mocks.NewMockHandler(ctrl)
-
-	handler.EXPECT().Invoke(gomock.Any(), []byte("hello")).Return([]byte("world"), nil)
+	handler := &mocks.Handler{
+		InvokeFunc: func(_ context.Context, _ []byte) ([]byte, error) {
+			return []byte("world"), nil
+		},
+	}
 
 	ch := New(c1).Then(handler)
 
@@ -65,7 +63,7 @@ func TestThen(t *testing.T) {
 func TestThenFunc(t *testing.T) {
 	assert := require.New(t)
 
-	ch := New().ThenFunc(lambdaextras.HandlerFunc(func(ctx context.Context, payload []byte) ([]byte, error) {
+	ch := New().ThenFunc(lambdaextras.HandlerFunc(func(_ context.Context, payload []byte) ([]byte, error) {
 		return bytes.Replace(payload, []byte("hello"), []byte("world"), 1), nil
 	}))
 

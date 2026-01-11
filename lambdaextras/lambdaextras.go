@@ -17,7 +17,7 @@ func (f HandlerFunc) Invoke(ctx context.Context, payload []byte) ([]byte, error)
 	return f(ctx, payload)
 }
 
-// GenericHandler converts a typed lambda handler into a Handler func
+// GenericHandler converts a typed lambda handler into a Handler func.
 func GenericHandler[I any, O any](handler func(context.Context, I) (O, error)) HandlerFunc {
 	return func(ctx context.Context, payload []byte) ([]byte, error) {
 		var input I

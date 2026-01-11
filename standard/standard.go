@@ -1,3 +1,4 @@
+// Package standard provides a default entry point for lambda with logger and panic recovery.
 package standard
 
 import (
@@ -21,10 +22,11 @@ type defaultConfig struct {
 	middlewares []middleware.Middleware
 }
 
+// Option configures the default middleware stack.
 type Option func(config *defaultConfig)
 
 // Fields pass a map of attributes which are appended to all log messages and raw events.
-func Fields(fields map[string]interface{}) Option {
+func Fields(fields map[string]any) Option {
 	return func(opts *defaultConfig) {
 		for k, v := range fields {
 			opts.fields[k] = v
@@ -66,7 +68,6 @@ func Append(mw middleware.Middleware) Option {
 
 // Default configures a standard lambda handler with default middleware which includes the zerolog and raw logging.
 func Default(h lambda.Handler, opts ...Option) {
-
 	config := &defaultConfig{
 		rawEnabled:  true,
 		fields:      make(middleware.FieldMap),

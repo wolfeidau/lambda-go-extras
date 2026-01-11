@@ -1,3 +1,4 @@
+// Package zerolog provides a middleware that adds a zerolog logger to the context.
 package zerolog
 
 import (
@@ -11,19 +12,19 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
 )
 
-// Option assign settings to the zerolog middlware
+// Option assign settings to the zerolog middlware.
 type Option func(opts *zerlogOptions)
 
-// settings for the zerolog middlware
+// settings for the zerolog middlware.
 type zerlogOptions struct {
-	fields map[string]interface{}
+	fields map[string]any
 	output io.Writer
 	level  zerolog.Level
 }
 
 // Fields pass a map of attributes which are appended to all log messages
 // emitted by this logger.
-func Fields(fields map[string]interface{}) Option {
+func Fields(fields map[string]any) Option {
 	return func(opts *zerlogOptions) {
 		for k, v := range fields {
 			opts.fields[k] = v
@@ -47,12 +48,13 @@ func Level(level zerolog.Level) Option {
 	}
 }
 
-// New build a new zerlog middleware with the provided configuration which has
-// Stack and Caller enabled
+// New build a new zerolog middleware, this uses zerolog to emit
+// a log message for the input and output events.
+// Stack and Caller enabled.
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 	opts := &zerlogOptions{
 		output: os.Stderr,
-		fields: make(map[string]interface{}),
+		fields: make(map[string]any),
 		level:  zerolog.InfoLevel,
 	}
 

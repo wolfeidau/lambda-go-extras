@@ -1,3 +1,4 @@
+// Package raw provides a middleware that logs raw events.
 package raw
 
 import (
@@ -12,19 +13,19 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
 )
 
-// Option assign settings to the zerolog middlware
+// Option assign settings to the zerolog middlware.
 type Option func(opts *rawOptions)
 
-// settings for the zerolog middlware
+// settings for the zerolog middlware.
 type rawOptions struct {
-	fields  map[string]interface{}
+	fields  map[string]any
 	output  io.Writer
 	enabled bool
 }
 
 // Fields pass a map of attributes which are appended to all log messages
 // emitted by this logger.
-func Fields(fields map[string]interface{}) Option {
+func Fields(fields map[string]any) Option {
 	return func(opts *rawOptions) {
 		for k, v := range fields {
 			opts.fields[k] = v
@@ -49,11 +50,11 @@ func Enabled(flag bool) Option {
 }
 
 // New build a new raw event logging middleware, this uses zerolog to emit
-// a log message for the input and output events
+// a log message for the input and output events.
 func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 	opts := &rawOptions{
 		output:  os.Stderr,
-		fields:  make(map[string]interface{}),
+		fields:  make(map[string]any),
 		enabled: true,
 	}
 
@@ -76,10 +77,10 @@ func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 				Str("amzn_trace_id", os.Getenv("_X_AMZN_TRACE_ID")).
 				Logger()
 
-			var v interface{}
+			var v any
 
 			if ok := unmarshal(payload, &v); ok {
-				zlog.Info().Fields(map[string]interface{}{
+				zlog.Info().Fields(map[string]any{
 					"event": v,
 				}).Msg("incoming event")
 			}
@@ -90,7 +91,7 @@ func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 			}
 
 			if ok := unmarshal(result, &v); ok {
-				zlog.Info().Err(err).Fields(map[string]interface{}{
+				zlog.Info().Err(err).Fields(map[string]any{
 					"event": v,
 				}).Msg("outgoing event")
 			}
@@ -100,7 +101,7 @@ func New(options ...Option) func(next lambda.Handler) lambda.Handler {
 	}
 }
 
-func unmarshal(payload []byte, v interface{}) bool {
+func unmarshal(payload []byte, v any) bool {
 	err := json.Unmarshal(payload, &v)
 	return err == nil
 }

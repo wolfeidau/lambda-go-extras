@@ -15,15 +15,15 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/middleware"
 )
 
-func okHandler(ctx context.Context, payload []byte) ([]byte, error) {
-	return []byte(`{"msg":"ok"}`), nil
+func okHandler(_ context.Context, payload []byte) ([]byte, error) {
+	return payload, nil
 }
 
-func errHandler(ctx context.Context, payload []byte) ([]byte, error) {
-	return nil, errors.New("oops")
+func errHandler(_ context.Context, _ []byte) ([]byte, error) {
+	return nil, errors.New("boom")
 }
 
-func badHandler(ctx context.Context, payload []byte) ([]byte, error) {
+func badHandler(_ context.Context, _ []byte) ([]byte, error) {
 	return []byte("hello"), nil
 }
 
@@ -31,7 +31,7 @@ func TestNew(t *testing.T) {
 	assert := require.New(t)
 
 	type args struct {
-		fields  map[string]interface{}
+		fields  map[string]any
 		enabled bool
 	}
 	tests := []struct {
@@ -39,26 +39,26 @@ func TestNew(t *testing.T) {
 		args        args
 		payload     []byte
 		wantCount   int
-		wantOutput  []map[string]interface{}
+		wantOutput  []map[string]any
 		handlerFunc lambdaextras.HandlerFunc
 		wantErr     bool
 	}{
 		{
 			name:    "should dump json",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
+			args:    args{fields: map[string]any{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
-			wantOutput: []map[string]interface{}{
+			wantOutput: []map[string]any{
 				{
 					"amzn_trace_id":  "",
 					"aws_request_id": "test123",
-					"event":          map[string]interface{}{"source": "welcome"},
+					"event":          map[string]any{"source": "welcome"},
 					"level":          "info",
 					"message":        "incoming event",
 					"msg":            "hello",
 				}, {
 					"amzn_trace_id":  "",
 					"aws_request_id": "test123",
-					"event":          map[string]interface{}{"msg": "ok"},
+					"event":          map[string]any{"msg": "ok"},
 					"level":          "info",
 					"message":        "outgoing event",
 					"msg":            "hello",
@@ -69,13 +69,13 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with error",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
+			args:    args{fields: map[string]any{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
-			wantOutput: []map[string]interface{}{
+			wantOutput: []map[string]any{
 				{
 					"amzn_trace_id":  "",
 					"aws_request_id": "test123",
-					"event":          map[string]interface{}{"source": "welcome"},
+					"event":          map[string]any{"source": "welcome"},
 					"level":          "info",
 					"message":        "incoming event",
 					"msg":            "hello",
@@ -87,13 +87,13 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with result warning",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
+			args:    args{fields: map[string]any{"msg": "hello"}, enabled: true},
 			payload: []byte(`{"source": "welcome"}`),
-			wantOutput: []map[string]interface{}{
+			wantOutput: []map[string]any{
 				{
 					"amzn_trace_id":  "",
 					"aws_request_id": "test123",
-					"event":          map[string]interface{}{"source": "welcome"},
+					"event":          map[string]any{"source": "welcome"},
 					"level":          "info",
 					"message":        "incoming event",
 					"msg":            "hello",
@@ -104,13 +104,13 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:    "should dump json with payload warning",
-			args:    args{fields: map[string]interface{}{"msg": "hello"}, enabled: true},
+			args:    args{fields: map[string]any{"msg": "hello"}, enabled: true},
 			payload: []byte(`hello`),
-			wantOutput: []map[string]interface{}{
+			wantOutput: []map[string]any{
 				{
 					"amzn_trace_id":  "",
 					"aws_request_id": "test123",
-					"event":          map[string]interface{}{"msg": "ok"},
+					"event":          map[string]any{"msg": "ok"},
 					"level":          "info",
 					"message":        "outgoing event",
 					"msg":            "hello",
@@ -121,15 +121,15 @@ func TestNew(t *testing.T) {
 		},
 		{
 			name:        "should be disabled",
-			args:        args{fields: map[string]interface{}{"msg": "hello"}, enabled: false},
+			args:        args{fields: map[string]any{"msg": "hello"}, enabled: false},
 			payload:     []byte(`{"source": "welcome"}`),
-			wantOutput:  []map[string]interface{}{},
+			wantOutput:  []map[string]any{},
 			wantCount:   1,
 			handlerFunc: okHandler,
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(tt.name, func(_ *testing.T) {
 			ctx := lambdacontext.NewContext(context.TODO(), &lambdacontext.LambdaContext{
 				AwsRequestID: "test123",
 			})
