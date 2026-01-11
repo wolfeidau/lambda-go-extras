@@ -14,7 +14,7 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/middleware"
 )
 
-func testHandler(ctx context.Context, payload []byte) ([]byte, error) {
+func testHandler(ctx context.Context, _ []byte) ([]byte, error) {
 	// retrieve a logger from the context
 	log := zerolog.Ctx(ctx)
 
@@ -32,7 +32,7 @@ func TestNew(t *testing.T) {
 	t.Logf("Current test filename: %s", filename)
 
 	type args struct {
-		fields map[string]interface{}
+		fields map[string]any
 		level  zerolog.Level
 	}
 	tests := []struct {
@@ -54,7 +54,7 @@ func TestNew(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(tt.name, func(_ *testing.T) {
 			ctx := lambdacontext.NewContext(context.TODO(), &lambdacontext.LambdaContext{
 				AwsRequestID: "test123",
 			})

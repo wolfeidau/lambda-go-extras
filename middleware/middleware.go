@@ -6,28 +6,25 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/lambdaextras"
 )
 
-// FieldMap used to pass in a list of attribute value pairs
-type FieldMap map[string]interface{}
+// FieldMap used to pass in a list of attribute value pairs.
+type FieldMap map[string]any
 
 // Middleware A constructor for a a piece of middleware.
 // Some middleware use this constructor out of the box,
-// so in most cases you can just pass somepackage.New
+// so in most cases you can just pass somepackage.New.
 type Middleware func(next lambda.Handler) lambda.Handler
 
-// Chain acts as a list of http.Handler constructors.
-// Chain is effectively immutable:
-// once created, it will always hold
-// the same set of constructors in the same order.
+// Chain is a middleware chain.
 type Chain struct {
 	middlewares []Middleware
 }
 
-// New creates a new chain
+// New creates a new chain.
 func New(middlewares ...Middleware) Chain {
 	return Chain{append([]Middleware(nil), middlewares...)}
 }
 
-// Use append one or more middleware(s) onto the existing chain
+// Use append one or more middleware(s) onto the existing chain.
 func (c *Chain) Use(middlewares ...Middleware) {
 	c.middlewares = append(c.middlewares, middlewares...)
 }

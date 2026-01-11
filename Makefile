@@ -1,4 +1,4 @@
-GOLANGCI_VERSION = v1.50.0
+GOLANGCI_VERSION = latest
 BIN_DIR ?= $(shell pwd)/bin
 
 ci: lint test
@@ -9,14 +9,6 @@ $(BIN_DIR)/golangci-lint: $(BIN_DIR)/golangci-lint-${GOLANGCI_VERSION}
 $(BIN_DIR)/golangci-lint-${GOLANGCI_VERSION}:
 	@curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s $(GOLANGCI_VERSION)
 	@mv $(BIN_DIR)/golangci-lint $@
-
-$(BIN_DIR)/mockgen:
-	@env GOBIN=$$PWD/bin GO111MODULE=on go install github.com/golang/mock/mockgen
-
-mocks: $(BIN_DIR)/mockgen
-	@echo "--- build all the mocks"
-	@$(BIN_DIR)/mockgen -destination=mocks/handler.go -package=mocks github.com/aws/aws-lambda-go/lambda Handler
-.PHONY: mocks
 
 lint: $(BIN_DIR)/golangci-lint
 	@echo "--- lint all the things"

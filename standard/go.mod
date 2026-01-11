@@ -1,6 +1,6 @@
 module github.com/wolfeidau/lambda-go-extras/standard
 
-go 1.19
+go 1.24
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0
