@@ -15,8 +15,8 @@ import (
 	"github.com/wolfeidau/lambda-go-extras/middleware"
 )
 
-func okHandler(_ context.Context, payload []byte) ([]byte, error) {
-	return payload, nil
+func okHandler(_ context.Context, _ []byte) ([]byte, error) {
+	return []byte(`{"msg":"ok"}`), nil
 }
 
 func errHandler(_ context.Context, _ []byte) ([]byte, error) {
